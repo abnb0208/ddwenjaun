@@ -192,6 +192,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // 合并复选框数据
         Object.assign(jsonData, checkboxGroups);
         
+        console.log('提交的数据:', jsonData);
+        
         // 发送数据到服务器
         fetch('/submit-survey', {
             method: 'POST',
@@ -201,14 +203,17 @@ document.addEventListener('DOMContentLoaded', function() {
             body: JSON.stringify(jsonData)
         })
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`服务器响应错误: ${response.status}`);
-            }
-            return response.json();
+            console.log('服务器响应状态:', response.status);
+            return response.json().then(data => {
+                if (!response.ok) {
+                    throw new Error(data.message || `服务器响应错误: ${response.status}`);
+                }
+                return data;
+            });
         })
         .then(data => {
             console.log('提交成功:', data);
-            showSubmitResult('提交成功！感谢您的参与。', 'success');
+            showSubmitResult(data.message || '提交成功！感谢您的参与。', 'success');
             
             // 重置表单并返回第一页
             setTimeout(() => {
@@ -219,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('提交错误:', error);
-            showSubmitResult('提交失败，请稍后重试。', 'error');
+            showSubmitResult(error.message || '提交失败，请稍后重试。', 'error');
         });
     }
     

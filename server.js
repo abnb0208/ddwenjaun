@@ -53,20 +53,43 @@ const server = http.createServer((req, res) => {
         });
         
         req.on('end', () => {
+            let formData;
+            let isValid = true;
+            
             try {
-                const formData = JSON.parse(body);
-                console.log('提交的调查问卷数据:', formData);
+                formData = JSON.parse(body);
+                console.log('收到的表单数据:', formData);
                 
-                // 模拟延迟处理
-                setTimeout(() => {
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: true, message: '表单提交成功' }));
-                }, 1000);
-            } catch (error) {
-                console.error('处理表单数据时出错:', error);
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: false, message: '表单数据无效' }));
+                // 模拟基本验证 - 在实际应用中应该更严格
+                isValid = formData && Object.keys(formData).length > 0;
+            } catch (e) {
+                console.error('解析JSON数据出错:', e);
+                isValid = false;
             }
+            
+            // 设置CORS响应头
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+            res.setHeader('Content-Type', 'application/json');
+            
+            // 模拟处理时间
+            setTimeout(() => {
+                if (isValid) {
+                    // 在实际应用中，这里应该保存数据到数据库
+                    res.statusCode = 200;
+                    res.end(JSON.stringify({
+                        success: true,
+                        message: '问卷提交成功'
+                    }));
+                } else {
+                    res.statusCode = 400;
+                    res.end(JSON.stringify({
+                        success: false,
+                        message: '表单数据无效'
+                    }));
+                }
+            }, 1000);
         });
         
         return;
