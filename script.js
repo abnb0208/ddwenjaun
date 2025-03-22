@@ -94,9 +94,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!isChecked) {
                     isValid = false;
                     // 高亮显示未选择的选项组
-                    input.closest('.form-group').classList.add('error');
+                    const formGroup = input.closest('.form-group');
+                    if (formGroup) {
+                        formGroup.classList.add('error');
+                    }
                 } else {
-                    input.closest('.form-group').classList.remove('error');
+                    const formGroup = input.closest('.form-group');
+                    if (formGroup) {
+                        formGroup.classList.remove('error');
+                    }
                 }
             } 
             // 检查文本输入
@@ -169,64 +175,69 @@ document.addEventListener('DOMContentLoaded', function() {
         // 显示加载指示器
         showSubmitResult('正在提交...', 'info');
         
-        // 验证整个表单的必填项是否都已填写
-        let allValid = true;
-        
-        // 遍历所有页面，验证必填项
-        pages.forEach((page, index) => {
-            // 临时设置当前页面以便验证
-            const originalPage = currentPage;
-            currentPage = index;
+        try {
+            // 验证整个表单的必填项是否都已填写
+            let allValid = true;
             
-            if (!validateCurrentPage()) {
-                allValid = false;
-            }
-            
-            // 恢复当前页面
-            currentPage = originalPage;
-        });
-        
-        if (!allValid) {
-            showSubmitResult('请完成所有必填项目再提交', 'error');
-            return;
-        }
-        
-        // 收集表单数据（仅用于日志）
-        const formData = new FormData(form);
-        const jsonData = {};
-        
-        // 处理复选框
-        const checkboxGroups = {};
-        
-        for (let [key, value] of formData.entries()) {
-            // 如果是复选框，组合成数组
-            if (key.includes('[]')) {
-                const baseKey = key.replace('[]', '');
-                if (!checkboxGroups[baseKey]) {
-                    checkboxGroups[baseKey] = [];
+            // 遍历所有页面，验证必填项
+            pages.forEach((page, index) => {
+                // 临时设置当前页面以便验证
+                const originalPage = currentPage;
+                currentPage = index;
+                
+                if (!validateCurrentPage()) {
+                    allValid = false;
                 }
-                checkboxGroups[baseKey].push(value);
-            } else {
-                jsonData[key] = value;
-            }
-        }
-        
-        // 合并复选框数据
-        Object.assign(jsonData, checkboxGroups);
-        
-        console.log('表单数据验证通过:', jsonData);
-        
-        // 模拟提交过程
-        setTimeout(() => {
-            showSubmitResult('提交成功！感谢您参与阿勒泰旅游目的地形象塑造调查问卷。您的反馈对我们非常宝贵。', 'success');
+                
+                // 恢复当前页面
+                currentPage = originalPage;
+            });
             
-            // 重置表单并返回第一页
+            if (!allValid) {
+                showSubmitResult('请完成所有必填项目再提交', 'error');
+                return;
+            }
+            
+            // 收集表单数据（仅用于日志）
+            const formData = new FormData(form);
+            const jsonData = {};
+            
+            // 处理复选框
+            const checkboxGroups = {};
+            
+            for (let [key, value] of formData.entries()) {
+                // 如果是复选框，组合成数组
+                if (key.includes('[]')) {
+                    const baseKey = key.replace('[]', '');
+                    if (!checkboxGroups[baseKey]) {
+                        checkboxGroups[baseKey] = [];
+                    }
+                    checkboxGroups[baseKey].push(value);
+                } else {
+                    jsonData[key] = value;
+                }
+            }
+            
+            // 合并复选框数据
+            Object.assign(jsonData, checkboxGroups);
+            
+            console.log('表单数据验证通过:', jsonData);
+            
+            // 模拟提交过程
             setTimeout(() => {
-                form.reset();
-                currentPage = 0;
-                showPage(currentPage);
-            }, 3000);
-        }, 1500);
+                showSubmitResult('提交成功！感谢您参与阿勒泰旅游目的地形象塑造调查问卷。您的反馈对我们非常宝贵。', 'success');
+                
+                // 重置表单并返回第一页
+                setTimeout(() => {
+                    form.reset();
+                    currentPage = 0;
+                    showPage(currentPage);
+                }, 3000);
+            }, 1500);
+        } catch (error) {
+            console.error('提交表单时出错:', error);
+            showSubmitResult('提交过程中发生错误，请稍后重试', 'error');
+        }
     }
     
     // 显示提交结果消息
