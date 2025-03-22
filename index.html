@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿勒泰旅游目的地形象塑造调查问卷</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>阿勒泰旅游目的地形象塑造调查问卷</h1>
+        </header>
+        
+        <div class="intro">
+            <p>尊敬的女士/先生：</p>
+            <p>您好！这是一份关于阿勒泰旅游目的地形象的调查问卷。本问卷采用匿名形式，所收集的数据仅用于学术研究，请您放心填写。感谢您的配合与支持！</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+            <div class="progress-text" id="progressText">完成度: 0%</div>
+        </div>
+
+        <form id="surveyForm" action="/submit" method="post">
+            <section>
+                <h2>第一部分：基本信息</h2>
+                
+                <div class="form-group">
+                    <label>1. 您的性别：</label>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="gender" value="男" required> 男</label>
+                        <label class="option"><input type="radio" name="gender" value="女"> 女</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>2. 您的年龄：</label>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="age" value="18岁以下" required> 18岁以下</label>
+                        <label class="option"><input type="radio" name="age" value="18-25岁"> 18-25岁</label>
+                        <label class="option"><input type="radio" name="age" value="26-35岁"> 26-35岁</label>
+                        <label class="option"><input type="radio" name="age" value="36-45岁"> 36-45岁</label>
+                        <label class="option"><input type="radio" name="age" value="46岁以上"> 46岁以上</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>3. 您的教育程度：</label>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="education" value="高中及以下" required> 高中及以下</label>
+                        <label class="option"><input type="radio" name="education" value="专科"> 专科</label>
+                        <label class="option"><input type="radio" name="education" value="本科"> 本科</label>
+                        <label class="option"><input type="radio" name="education" value="研究生及以上"> 研究生及以上</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>4. 您的月收入水平：</label>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="income" value="3000元以下" required> 3000元以下</label>
+                        <label class="option"><input type="radio" name="income" value="3000-5000元"> 3000-5000元</label>
+                        <label class="option"><input type="radio" name="income" value="5001-8000元"> 5001-8000元</label>
+                        <label class="option"><input type="radio" name="income" value="8001-12000元"> 8001-12000元</label>
+                        <label class="option"><input type="radio" name="income" value="12000元以上"> 12000元以上</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>5. 您的职业：</label>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="occupation" value="学生" required> 学生</label>
+                        <label class="option"><input type="radio" name="occupation" value="企业职员"> 企业职员</label>
+                        <label class="option"><input type="radio" name="occupation" value="公务员/事业单位"> 公务员/事业单位</label>
+                        <label class="option"><input type="radio" name="occupation" value="自由职业"> 自由职业</label>
+                        <label class="option"><input type="radio" name="occupation" value="其他"> 其他</label>
+                        <input type="text" name="occupation_other" class="other-input" placeholder="请说明">
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>第二部分：旅游经历</h2>
+                
+                <div class="form-group">
+                    <label>6. 您是否曾去过阿勒泰旅游？</label>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="visited" value="是" required> 是</label>
+                        <label class="option"><input type="radio" name="visited" value="否"> 否</label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="visitedPlacesGroup">
+                    <label>7. 如果去过，您去过阿勒泰的哪些地方？（可多选）</label>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="visited_places" value="喀纳斯"> 喀纳斯</label>
+                        <label class="option"><input type="checkbox" name="visited_places" value="可可托海"> 可可托海</label>
+                        <label class="option"><input type="checkbox" name="visited_places" value="乌伦古湖"> 乌伦古湖</label>
+                        <label class="option"><input type="checkbox" name="visited_places" value="阿勒泰市区"> 阿勒泰市区</label>
+                        <label class="option"><input type="checkbox" name="visited_places" value="其他"> 其他</label>
+                        <input type="text" name="visited_places_other" class="other-input" placeholder="请说明">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>8. 您是通过什么渠道了解到阿勒泰的？（可多选）</label>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="info_channel" value="亲朋好友推荐"> 亲朋好友推荐</label>
+                        <label class="option"><input type="checkbox" name="info_channel" value="旅游攻略网站"> 旅游攻略网站</label>
+                        <label class="option"><input type="checkbox" name="info_channel" value="旅游广告"> 旅游广告</label>
+                        <label class="option"><input type="checkbox" name="info_channel" value="影视作品"> 影视作品</label>
+                        <label class="option"><input type="checkbox" name="info_channel" value="其他"> 其他</label>
+                        <input type="text" name="info_channel_other" class="other-input" placeholder="请说明">
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>第三部分：影视作品对阿勒泰旅游目的形象塑造的影响</h2>
+                
+                <div class="form-group">
+                    <label>9. 您是否看过以阿勒泰为背景或拍摄地的影视作品？</label>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="watched_media" value="是" required> 是</label>
+                        <label class="option"><input type="radio" name="watched_media" value="否"> 否</label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="watchedMediaGroup">
+                    <label>10. 如果看过，请列举您印象深刻的影视作品名称（可多选）：</label>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="media_titles" value="《我的阿勒泰》"> 《我的阿勒泰》</label>
+                        <label class="option"><input type="checkbox" name="media_titles" value="《阿勒泰的雪》"> 《阿勒泰的雪》</label>
+                        <label class="option"><input type="checkbox" name="media_titles" value="《喀纳斯的传说》"> 《喀纳斯的传说》</label>
+                        <label class="option"><input type="checkbox" name="media_titles" value="其他"> 其他</label>
+                        <input type="text" name="media_titles_other" class="other-input" placeholder="请说明">
+                    </div>
+                </div>
+
+                <div class="form-group" id="mediaHelpfulGroup">
+                    <label>11. 这些影视作品对您了解阿勒泰旅游目的形象有帮助吗？</label>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="media_helpful" value="非常有帮助"> 非常有帮助</label>
+                        <label class="option"><input type="radio" name="media_helpful" value="有一定帮助"> 有一定帮助</label>
+                        <label class="option"><input type="radio" name="media_helpful" value="没有帮助"> 没有帮助</label>
+                        <label class="option"><input type="radio" name="media_helpful" value="反而有误导"> 反而有误导</label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="mediaPositiveGroup">
+                    <label>12. 您认为影视作品中哪些方面对阿勒泰旅游目的形象塑造起到了积极作用？（可多选）</label>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="media_positive" value="自然风光展示"> 自然风光展示</label>
+                        <label class="option"><input type="checkbox" name="media_positive" value="民族文化呈现"> 民族文化呈现</label>
+                        <label class="option"><input type="checkbox" name="media_positive" value="当地人物形象塑造"> 当地人物形象塑造</label>
+                        <label class="option"><input type="checkbox" name="media_positive" value="故事情节吸引"> 故事情节吸引</label>
+                        <label class="option"><input type="checkbox" name="media_positive" value="其他"> 其他</label>
+                        <input type="text" name="media_positive_other" class="other-input" placeholder="请说明">
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>第四部分：旅游目的地形象评价</h2>
+                
+                <div class="form-group">
+                    <label>13. 您认为阿勒泰旅游目的的整体形象是什么？（可多选）</label>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="overall_image" value="神秘的边疆之地"> 神秘的边疆之地</label>
+                        <label class="option"><input type="checkbox" name="overall_image" value="美丽的自然风光胜地"> 美丽的自然风光胜地</label>
+                        <label class="option"><input type="checkbox" name="overall_image" value="富有民族风情的地方"> 富有民族风情的地方</label>
+                        <label class="option"><input type="checkbox" name="overall_image" value="世界冰雪运动目的地"> 世界冰雪运动目的地</label>
+                        <label class="option"><input type="checkbox" name="overall_image" value="其他"> 其他</label>
+                        <input type="text" name="overall_image_other" class="other-input" placeholder="请说明">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>14. 您对阿勒泰旅游目的的自然景观印象如何？（1-5分，1分最不满意，5分最满意）</label>
+                    
+                    <div class="rating-item">
+                        <span class="rating-label">喀纳斯湖：</span>
+                        <div class="rating">
+                            <label><input type="radio" name="kanasi_rating" value="1" required> 1</label>
+                            <label><input type="radio" name="kanasi_rating" value="2"> 2</label>
+                            <label><input type="radio" name="kanasi_rating" value="3"> 3</label>
+                            <label><input type="radio" name="kanasi_rating" value="4"> 4</label>
+                            <label><input type="radio" name="kanasi_rating" value="5"> 5</label>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-item">
+                        <span class="rating-label">额尔齐斯河：</span>
+                        <div class="rating">
+                            <label><input type="radio" name="irtysh_rating" value="1" required> 1</label>
+                            <label><input type="radio" name="irtysh_rating" value="2"> 2</label>
+                            <label><input type="radio" name="irtysh_rating" value="3"> 3</label>
+                            <label><input type="radio" name="irtysh_rating" value="4"> 4</label>
+                            <label><input type="radio" name="irtysh_rating" value="5"> 5</label>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-item">
+                        <span class="rating-label">乌伦古湖：</span>
+                        <div class="rating">
+                            <label><input type="radio" name="ulungur_rating" value="1" required> 1</label>
+                            <label><input type="radio" name="ulungur_rating" value="2"> 2</label>
+                            <label><input type="radio" name="ulungur_rating" value="3"> 3</label>
+                            <label><input type="radio" name="ulungur_rating" value="4"> 4</label>
+                            <label><input type="radio" name="ulungur_rating" value="5"> 5</label>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-item">
+                        <span class="rating-label">其他自然景观：</span>
+                        <div class="rating">
+                            <label><input type="radio" name="other_landscape_rating" value="1" required> 1</label>
+                            <label><input type="radio" name="other_landscape_rating" value="2"> 2</label>
+                            <label><input type="radio" name="other_landscape_rating" value="3"> 3</label>
+                            <label><input type="radio" name="other_landscape_rating" value="4"> 4</label>
+                            <label><input type="radio" name="other_landscape_rating" value="5"> 5</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>15. 自然环境方面：</label>
+                    
+                    <div class="sub-question">
+                        <p>1) 自然景观的独特性：</p>
+                        <div class="likert-scale">
+                            <label><input type="radio" name="landscape_uniqueness" value="非常独特" required> 非常独特</label>
+                            <label><input type="radio" name="landscape_uniqueness" value="较独特"> 较独特</label>
+                            <label><input type="radio" name="landscape_uniqueness" value="一般"> 一般</label>
+                            <label><input type="radio" name="landscape_uniqueness" value="较普通"> 较普通</label>
+                            <label><input type="radio" name="landscape_uniqueness" value="非常普通"> 非常普通</label>
+                        </div>
+                    </div>
+                    
+                    <div class="sub-question">
+                        <p>2) 生态环境质量：</p>
+                        <div class="likert-scale">
+                            <label><input type="radio" name="eco_quality" value="非常好" required> 非常好</label>
+                            <label><input type="radio" name="eco_quality" value="较好"> 较好</label>
+                            <label><input type="radio" name="eco_quality" value="一般"> 一般</label>
+                            <label><input type="radio" name="eco_quality" value="较差"> 较差</label>
+                            <label><input type="radio" name="eco_quality" value="非常差"> 非常差</label>
+                        </div>
+                    </div>
+                    
+                    <div class="sub-question">
+                        <p>3) 气候适宜性：</p>
+                        <div class="likert-scale">
+                            <label><input type="radio" name="climate" value="非常适宜" required> 非常适宜</label>
+                            <label><input type="radio" name="climate" value="较适宜"> 较适宜</label>
+                            <label><input type="radio" name="climate" value="一般"> 一般</label>
+                            <label><input type="radio" name="climate" value="较不适宜"> 较不适宜</label>
+                            <label><input type="radio" name="climate" value="非常不适宜"> 非常不适宜</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>16. 旅游基础设施：</label>
+                    
+                    <div class="sub-question">
+                        <p>1) 交通便利程度：</p>
+                        <div class="likert-scale">
+                            <label><input type="radio" name="transportation" value="非常便利" required> 非常便利</label>
+                            <label><input type="radio" name="transportation" value="较便利"> 较便利</label>
+                            <label><input type="radio" name="transportation" value="一般"> 一般</label>
+                            <label><input type="radio" name="transportation" value="较不便利"> 较不便利</label>
+                            <label><input type="radio" name="transportation" value="非常不便利"> 非常不便利</label>
+                        </div>
+                    </div>
+                    
+                    <div class="sub-question">
+                        <p>2) 住宿设施质量：</p>
+                        <div class="likert-scale">
+                            <label><input type="radio" name="accommodation" value="非常好" required> 非常好</label>
+                            <label><input type="radio" name="accommodation" value="较好"> 较好</label>
+                            <label><input type="radio" name="accommodation" value="一般"> 一般</label>
+                            <label><input type="radio" name="accommodation" value="较差"> 较差</label>
+                            <label><input type="radio" name="accommodation" value="非常差"> 非常差</label>
+                        </div>
+                    </div>
+                    
+                    <div class="sub-question">
+                        <p>3) 餐饮设施完善程度：</p>
+                        <div class="likert-scale">
+                            <label><input type="radio" name="dining" value="非常完善" required> 非常完善</label>
+                            <label><input type="radio" name="dining" value="较完善"> 较完善</label>
+                            <label><input type="radio" name="dining" value="一般"> 一般</label>
+                            <label><input type="radio" name="dining" value="较不完善"> 较不完善</label>
+                            <label><input type="radio" name="dining" value="非常不完善"> 非常不完善</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>17. 旅游服务：</label>
+                    
+                    <div class="sub-question">
+                        <p>1) 导游服务质量：</p>
+                        <div class="likert-scale">
+                            <label><input type="radio" name="guide_service" value="非常好" required> 非常好</label>
+                            <label><input type="radio" name="guide_service" value="较好"> 较好</label>
+                            <label><input type="radio" name="guide_service" value="一般"> 一般</label>
+                            <label><input type="radio" name="guide_service" value="较差"> 较差</label>
+                            <label><input type="radio" name="guide_service" value="非常差"> 非常差</label>
+                        </div>
+                    </div>
+                    
+                    <div class="sub-question">
+                        <p>2) 旅游信息服务：</p>
+                        <div class="likert-scale">
+                            <label><input type="radio" name="info_service" value="非常完善" required> 非常完善</label>
+                            <label><input type="radio" name="info_service" value="较完善"> 较完善</label>
+                            <label><input type="radio" name="info_service" value="一般"> 一般</label>
+                            <label><input type="radio" name="info_service" value="较不完善"> 较不完善</label>
+                            <label><input type="radio" name="info_service" value="非常不完善"> 非常不完善</label>
+                        </div>
+                    </div>
+                    
+                    <div class="sub-question">
+                        <p>3) 景区管理水平：</p>
+                        <div class="likert-scale">
+                            <label><input type="radio" name="scenic_management" value="非常好" required> 非常好</label>
+                            <label><input type="radio" name="scenic_management" value="较好"> 较好</label>
+                            <label><input type="radio" name="scenic_management" value="一般"> 一般</label>
+                            <label><input type="radio" name="scenic_management" value="较差"> 较差</label>
+                            <label><input type="radio" name="scenic_management" value="非常差"> 非常差</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>18. 文化特色：</label>
+                    
+                    <div class="sub-question">
+                        <p>1) 民族文化特色：</p>
+                        <div class="likert-scale">
+                            <label><input type="radio" name="ethnic_culture" value="非常突出" required> 非常突出</label>
+                            <label><input type="radio" name="ethnic_culture" value="较突出"> 较突出</label>
+                            <label><input type="radio" name="ethnic_culture" value="一般"> 一般</label>
+                            <label><input type="radio" name="ethnic_culture" value="不突出"> 不突出</label>
+                            <label><input type="radio" name="ethnic_culture" value="非常不突出"> 非常不突出</label>
+                        </div>
+                    </div>
+                    
+                    <div class="sub-question">
+                        <p>2) 地方特色美食：</p>
+                        <div class="likert-scale">
+                            <label><input type="radio" name="local_food" value="非常特色" required> 非常特色</label>
+                            <label><input type="radio" name="local_food" value="较特色"> 较特色</label>
+                            <label><input type="radio" name="local_food" value="一般"> 一般</label>
+                            <label><input type="radio" name="local_food" value="较无特色"> 较无特色</label>
+                            <label><input type="radio" name="local_food" value="非常无特色"> 非常无特色</label>
+                        </div>
+                    </div>
+                    
+                    <div class="sub-question">
+                        <p>3) 民俗活动体验：</p>
+                        <div class="likert-scale">
+                            <label><input type="radio" name="folk_activities" value="非常丰富" required> 非常丰富</label>
+                            <label><input type="radio" name="folk_activities" value="较丰富"> 较丰富</label>
+                            <label><input type="radio" name="folk_activities" value="一般"> 一般</label>
+                            <label><input type="radio" name="folk_activities" value="较少"> 较少</label>
+                            <label><input type="radio" name="folk_activities" value="非常少"> 非常少</label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>第五部分：旅游动机与行为意向</h2>
+                
+                <div class="form-group">
+                    <label>19. 您选择去阿勒泰旅游的主要动机是什么？（可多选）</label>
+                    <div class="options">
+                        <label class="option"><input type="checkbox" name="travel_motivation" value="欣赏自然风光"> 欣赏自然风光</label>
+                        <label class="option"><input type="checkbox" name="travel_motivation" value="体验民族文化"> 体验民族文化</label>
+                        <label class="option"><input type="checkbox" name="travel_motivation" value="参与冰雪运动"> 参与冰雪运动</label>
+                        <label class="option"><input type="checkbox" name="travel_motivation" value="拍摄打卡影视作品取景地"> 拍摄打卡影视作品取景地</label>
+                        <label class="option"><input type="checkbox" name="travel_motivation" value="其他"> 其他</label>
+                        <input type="text" name="travel_motivation_other" class="other-input" placeholder="请说明">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>20. 您是否会因为影视作品的推荐而增加去阿勒泰旅游的意愿？</label>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="media_influence" value="一定会" required> 一定会</label>
+                        <label class="option"><input type="radio" name="media_influence" value="可能会"> 可能会</label>
+                        <label class="option"><input type="radio" name="media_influence" value="不确定"> 不确定</label>
+                        <label class="option"><input type="radio" name="media_influence" value="不会"> 不会</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>21. 您在阿勒泰旅游过程中，是否会主动寻找影视作品中的拍摄地点或元素？</label>
+                    <div class="options">
+                        <label class="option"><input type="radio" name="filming_location" value="会，而且很积极" required> 会，而且很积极</label>
+                        <label class="option"><input type="radio" name="filming_location" value="会，但不太刻意"> 会，但不太刻意</label>
+                        <label class="option"><input type="radio" name="filming_location" value="不会特别关注"> 不会特别关注</label>
+                        <label class="option"><input type="radio" name="filming_location" value="完全不会"> 完全不会</label>
+                    </div>
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">提交问卷</button>
+                <button type="reset" class="reset-btn">重置</button>
+            </div>
+        </form>
+
+        <footer>
+            <p>感谢您的配合！祝您生活愉快！</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

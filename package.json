@@ -1,0 +1,15 @@
+{
+  "name": "aletai-tourism-survey",
+  "version": "1.0.0",
+  "description": "阿勒泰旅游目的地形象塑造调查问卷",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.22"
+  }
+} 
