@@ -169,7 +169,29 @@ document.addEventListener('DOMContentLoaded', function() {
         // 显示加载指示器
         showSubmitResult('正在提交...', 'info');
         
-        // 收集表单数据
+        // 验证整个表单的必填项是否都已填写
+        let allValid = true;
+        
+        // 遍历所有页面，验证必填项
+        pages.forEach((page, index) => {
+            // 临时设置当前页面以便验证
+            const originalPage = currentPage;
+            currentPage = index;
+            
+            if (!validateCurrentPage()) {
+                allValid = false;
+            }
+            
+            // 恢复当前页面
+            currentPage = originalPage;
+        });
+        
+        if (!allValid) {
+            showSubmitResult('请完成所有必填项目再提交', 'error');
+            return;
+        }
+        
+        // 收集表单数据（仅用于日志）
         const formData = new FormData(form);
         const jsonData = {};
         
@@ -192,40 +214,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // 合并复选框数据
         Object.assign(jsonData, checkboxGroups);
         
-        console.log('提交的数据:', jsonData);
+        console.log('表单数据验证通过:', jsonData);
         
-        // 发送数据到服务器
-        fetch('/submit-survey', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(jsonData)
-        })
-        .then(response => {
-            console.log('服务器响应状态:', response.status);
-            return response.json().then(data => {
-                if (!response.ok) {
-                    throw new Error(data.message || `服务器响应错误: ${response.status}`);
-                }
-                return data;
-            });
-        })
-        .then(data => {
-            console.log('提交成功:', data);
-            showSubmitResult(data.message || '提交成功！感谢您的参与。', 'success');
+        // 模拟提交过程
+        setTimeout(() => {
+            showSubmitResult('提交成功！感谢您参与阿勒泰旅游目的地形象塑造调查问卷。您的反馈对我们非常宝贵。', 'success');
             
             // 重置表单并返回第一页
             setTimeout(() => {
                 form.reset();
                 currentPage = 0;
                 showPage(currentPage);
-            }, 2000);
-        })
-        .catch(error => {
-            console.error('提交错误:', error);
-            showSubmitResult(error.message || '提交失败，请稍后重试。', 'error');
-        });
+            }, 3000);
+        }, 1500);
     }
     
     // 显示提交结果消息
