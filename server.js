@@ -2,29 +2,41 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const querystring = require('querystring');
 
-// 定义MIME类型
+// 设置端口
+const port = process.env.PORT || 8531;
+
+// MIME类型映射
 const mimeTypes = {
     '.html': 'text/html',
-    '.css': 'text/css',
     '.js': 'text/javascript',
+    '.css': 'text/css',
     '.json': 'application/json',
     '.png': 'image/png',
     '.jpg': 'image/jpeg',
     '.gif': 'image/gif',
-    '.svg': 'image/svg+xml'
+    '.svg': 'image/svg+xml',
+    '.ico': 'image/x-icon',
+    '.wav': 'audio/wav',
+    '.mp4': 'video/mp4',
+    '.woff': 'application/font-woff',
+    '.ttf': 'application/font-ttf',
+    '.eot': 'application/vnd.ms-fontobject',
+    '.otf': 'application/font-otf',
+    '.wasm': 'application/wasm'
 };
 
 // 创建HTTP服务器
 const server = http.createServer((req, res) => {
-    // 设置CORS头，允许跨域请求
+    // 设置CORS头部
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     
-    // 处理OPTIONS请求（预检请求）
+    // 处理OPTIONS请求
     if (req.method === 'OPTIONS') {
-        res.writeHead(200);
+        res.statusCode = 200;
         res.end();
         return;
     }
@@ -32,91 +44,75 @@ const server = http.createServer((req, res) => {
     // 解析URL
     const parsedUrl = url.parse(req.url);
     let pathname = parsedUrl.pathname;
-
-    // 默认加载index.html
-    if (pathname === '/') {
-        pathname = '/index.html';
-    }
-
-    // 提交表单的处理逻辑
-    if (req.method === 'POST' && pathname === '/submit') {
+    
+    // 处理表单提交
+    if (req.method === 'POST' && pathname === '/submit-survey') {
         let body = '';
-        
         req.on('data', chunk => {
             body += chunk.toString();
         });
         
         req.on('end', () => {
-            console.log('表单提交数据:', body);
-            
-            let responseData;
-            
             try {
-                // 尝试解析JSON数据
                 const formData = JSON.parse(body);
+                console.log('提交的调查问卷数据:', formData);
                 
-                // 在实际应用中，这里会处理表单数据并存储到数据库
-                // 这里我们简单模拟一个处理延迟
+                // 模拟延迟处理
                 setTimeout(() => {
-                    // 返回成功消息
-                    responseData = {
-                        success: true,
-                        message: '问卷提交成功！感谢您的参与！',
-                        data: formData
-                    };
-                    
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify(responseData));
-                }, 1000); // 1秒延迟模拟服务器处理时间
+                    res.end(JSON.stringify({ success: true, message: '表单提交成功' }));
+                }, 1000);
             } catch (error) {
-                console.error('解析JSON失败:', error);
-                
-                // 返回错误消息
-                responseData = {
-                    success: false,
-                    message: '数据格式错误，请重试'
-                };
-                
+                console.error('处理表单数据时出错:', error);
                 res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(responseData));
+                res.end(JSON.stringify({ success: false, message: '表单数据无效' }));
             }
         });
         
         return;
     }
-
-    // 获取绝对路径
-    const filePath = path.join(__dirname, pathname);
     
-    // 获取文件扩展名
-    const extname = path.extname(filePath);
-    const contentType = mimeTypes[extname] || 'application/octet-stream';
-
-    // 读取文件
-    fs.readFile(filePath, (error, content) => {
-        if (error) {
-            if (error.code === 'ENOENT') {
-                // 文件不存在，返回404
-                console.error(`文件不存在: ${filePath}`);
-                res.writeHead(404);
-                res.end('404 Not Found');
-            } else {
-                // 服务器错误
-                console.error(`服务器错误: ${error.code}`);
-                res.writeHead(500);
-                res.end('500 Internal Server Error');
-            }
-        } else {
-            // 成功返回文件内容
-            res.writeHead(200, { 'Content-Type': contentType });
-            res.end(content, 'utf-8');
+    // 处理GET请求
+    if (req.method === 'GET') {
+        // 如果路径是根目录，默认提供index.html
+        if (pathname === '/') {
+            pathname = '/index.html';
         }
-    });
+        
+        // 获取文件的完整路径
+        const filePath = path.join(__dirname, pathname);
+        
+        // 获取文件扩展名
+        const extname = String(path.extname(filePath)).toLowerCase();
+        
+        // 获取内容类型
+        const contentType = mimeTypes[extname] || 'application/octet-stream';
+        
+        // 读取文件
+        fs.readFile(filePath, (error, content) => {
+            if (error) {
+                if (error.code === 'ENOENT') {
+                    // 文件不存在
+                    console.error(`文件不存在: ${filePath}`);
+                    res.writeHead(404, { 'Content-Type': 'text/html' });
+                    res.end('<h1>404 Not Found</h1><p>The requested resource was not found on this server.</p>');
+                } else {
+                    // 服务器错误
+                    console.error(`服务器错误: ${error.code}`);
+                    res.writeHead(500, { 'Content-Type': 'text/html' });
+                    res.end('<h1>500 Internal Server Error</h1><p>Sorry, there was a problem processing your request.</p>');
+                }
+            } else {
+                // 成功返回文件内容
+                res.writeHead(200, { 'Content-Type': contentType });
+                res.end(content, 'utf-8');
+            }
+        });
+    }
 });
 
-// 监听3000端口
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`服务器运行在 http://localhost:${PORT}/`);
+// 启动服务器
+server.listen(port, () => {
+    console.log(`服务器运行在 http://localhost:${port}/`);
     console.log(`您可以在浏览器中访问上述地址查看问卷`);
 }); 
